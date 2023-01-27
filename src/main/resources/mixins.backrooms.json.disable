@@ -1,0 +1,6 @@
+{
+  "package": "com.meng.backrooms.mixins",
+  "mixins": [
+    "FluidBoundingBox"
+  ]
+}

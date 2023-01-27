@@ -1,0 +1,18 @@
+{
+  "gun.shoot": {
+    "sounds": [
+      {
+        "name": "backrooms:gun_shoot",
+        "stream": true
+      }
+    ]
+  },
+  "bullet.hit.ground": {
+    "sounds": [
+      {
+        "name": "backrooms:bullet_hit_ground",
+        "stream": true
+      }
+    ]
+  }
+}
