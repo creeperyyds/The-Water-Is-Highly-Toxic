@@ -1,7 +1,0 @@
-{
-  "parent": "block/cube_column",
-  "textures": {
-    "end": "backrooms:blocks/bamboo_block_top",
-    "side": "backrooms:blocks/stripped_oak_log"
-  }
-}

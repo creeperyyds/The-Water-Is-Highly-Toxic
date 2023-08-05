@@ -3,9 +3,9 @@
 ====
  - 36.2.39 [1.16] Fix EntityEvent.Size not being fired (#8668)
  - 36.2.38 [1.16] Allow sound instances to customize stream source (#8595)
- - 36.2.37 [1.16] Fix entity parts being ignored when collecting entities in an AABB (#8606)
-           Previously entity parts are only taken into consideration when the parent entity is in a chunk that intersects with the AABB
- - 36.2.36 [1.16] Fix inconsistency of multipart entity ids (#8605)
+ - 36.2.37 [1.16] Fix ENTITY parts being ignored when collecting entities in an AABB (#8606)
+           Previously ENTITY parts are only taken into consideration when the parent ENTITY is in a chunk that intersects with the AABB
+ - 36.2.36 [1.16] Fix inconsistency of multipart ENTITY ids (#8605)
  - 36.2.35 Update Licenses
  - 36.2.34 Add Gzip support to version checker (partial backport of #8148 from 1.17) (#8567)
  - 36.2.33 Readd patch (#7125)
@@ -13,7 +13,7 @@
            Use the `/forge setdimension` command 'targets' argument and provide a default for the 'pos' argument as it's optional
  - 36.2.31 Clear local variable table on RuntimeEnumExtender transformation (#8340)
  - 36.2.30 Prevent setting window icon on OSX (#8468)
- - 36.2.29 [1.16] Fix entity type in conversion event to Drowned (#8480)
+ - 36.2.29 [1.16] Fix ENTITY type in conversion event to Drowned (#8480)
  - 36.2.28 Fix climbable hook to set lastClimbablePos field. Fixes #8370 (#8373)
  - 36.2.27 Merge values of defaulted optional tags (#8304)
            This fixes an error when a defaulted optional tag is defined in multiple places, eventually causing duplicate values in a map collector which then throws an exception.
@@ -63,7 +63,7 @@
            * Remove duplicate test resources
            These resources have corresponding equivalents in the generated tests
            resources folder.
- - 36.2.2  Fix rounding related errors with small entity pathfinding. Closes #7730
+ - 36.2.2  Fix rounding related errors with small ENTITY pathfinding. Closes #7730
  - 36.2.1  Pass the 'includeName' flag to the ItemTossEvent (#7758)
  - 36.2.0  New 1.16.5 RB.
 
@@ -157,7 +157,7 @@
 
 36.0
 ====
- - 36.0.61 Fix wrong eye height when entity size changes (esp. baby animals) (#7628)
+ - 36.0.61 Fix wrong eye height when ENTITY size changes (esp. baby animals) (#7628)
  - 36.0.60 Allow ITeleporter to override the vanilla teleport sound (#7682)
  - 36.0.59 Fix datapack exception related to EnumArgument with siblings (#7686)
            Invalid enum constants are now properly thrown as a CommandSyntaxException
@@ -190,7 +190,7 @@
            Update deprecation comment on isAir
  - 36.0.42 Add Opacity to ForgeHooksClient#renderMainMenu (#7660)
  - 36.0.41 Add support for caching of configuration values. (#7608)
- - 36.0.40 Added entity attribute setup and creation events
+ - 36.0.40 Added ENTITY attribute setup and creation events
  - 36.0.39 Fix updateItemStackNBT not properly being called (#7646)
            Re-added ItemStack delegate redirect transformer
  - 36.0.38 Fix a few FluidUtil issues that were causing DispenseFluidContainer to not function properly (#7422)
@@ -214,12 +214,12 @@
  - 36.0.22 Add IExtensibleEnum to GrassColorModifier (#7641)
  - 36.0.21 Log stacktraces in NettyPacketEncoder. (#7654)
  - 36.0.20 Lower logging level for datafixer warning to debug (#7636)
- - 36.0.19 Reintroduce forge's chunk manager to allow mods to force chunks with either a block position or entity (UUID) "owner" and have them properly persist between restarts (#7642)
+ - 36.0.19 Reintroduce forge's chunk manager to allow mods to force chunks with either a block position or ENTITY (UUID) "owner" and have them properly persist between restarts (#7642)
  - 36.0.18 Fix two places where querying an object for the new "valid" capability from a capability invalidation listener could cause the object to return the old invalid capability. (#7643)
  - 36.0.17 Fix config spec in cases of enum class discrepancies (#7635)
  - 36.0.16 Fix onBlockAdded being called twice for ItemEntity placing non-TE blocks (#7607)
  - 36.0.15 Prevent NullPointerException when adding new loot pool. (#7605)
- - 36.0.14 Added generic multi part entity API (#7554)
+ - 36.0.14 Added generic multi part ENTITY API (#7554)
  - 36.0.13 Fix IAngerable entities crashing when reading nbt on client (#7618)
  - 36.0.12 [1.16.x] Add loot table ID in Global Loot Modifiers (#7428)
  - 36.0.11 Add a block tag to allow mods to blacklist blocks endermen should not be able to place blocks on top of, similar to how vanilla hardcodes against them being able to place things on bedrock (#7548)

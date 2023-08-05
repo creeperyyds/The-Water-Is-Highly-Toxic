@@ -1,0 +1,4 @@
+@ParametersAreNonnullByDefault
+package funny;
+
+import javax.annotation.ParametersAreNonnullByDefault;

@@ -5,16 +5,17 @@ buildscript {
     }
     dependencies {
         classpath group: 'net.minecraftforge.gradle', name: 'ForgeGradle', version: '5.1.+', changing: true
+        classpath 'org.spongepowered:mixingradle:0.7.+'
     }
 }
 apply plugin: 'net.minecraftforge.gradle'
 // Only edit below this line, the above code adds and enables the necessary things for Forge to be setup.
 apply plugin: 'eclipse'
 apply plugin: 'maven-publish'
-
+apply plugin: 'org.spongepowered.mixin'
 version = '1.0'
-group = 'backrooms' // http://maven.apache.org/guides/mini/guide-naming-conventions.html
-archivesBaseName = 'Backrooms'
+group = 'water_is_dangerous' // http://maven.apache.org/guides/mini/guide-naming-conventions.html
+archivesBaseName = 'water_is_dangerous'
 java.toolchain.languageVersion = JavaLanguageVersion.of(8) // Mojang ships Java 8 to end users, so your mod should target Java 8.
 
 println('Java: ' + System.getProperty('java.version') + ' JVM: ' + System.getProperty('java.vm.version') + '(' + System.getProperty('java.vendor') + ') Arch: ' + System.getProperty('os.arch'))
@@ -32,9 +33,7 @@ minecraft {
     // Simply re-run your setup task after changing the mappings to update your workspace.
     mappings channel: 'official', version: '1.16.5'
     // makeObfSourceJar = false // an Srg named sources jar is made by default. uncomment this to disable.
-    
-    // accessTransformer = file('src/main/resources/META-INF/accesstransformer.cfg')
-
+    accessTransformer = file("src/main/resources/META-INF/At.cfg")
     // Default run configurations.
     // These can be tweaked, removed, or duplicated as needed.
     runs {
@@ -51,10 +50,10 @@ minecraft {
             // Recommended logging level for the console
             // You can set various levels here.
             // Please read: https://stackoverflow.com/questions/2031163/when-to-use-the-different-log-levels
-            property 'forge.logging.console.level', 'info'
+            property 'forge.logging.console.level', 'debug'
 
             mods {
-                backrooms {
+                water_is_dangerous {
                     source sourceSets.main
                 }
             }
@@ -76,7 +75,7 @@ minecraft {
             property 'forge.logging.console.level', 'info'
 
             mods {
-                backrooms {
+                water_is_dangerous {
                     source sourceSets.main
                 }
             }
@@ -98,10 +97,10 @@ minecraft {
             property 'forge.logging.console.level', 'info'
 
             // Specify the modid for data generation, where to output the resulting resource, and where to look for existing resources.
-            args '--mod', 'backrooms', '--all', '--output', file('src/main/resources/'), '--existing', file('src/main/resources/')
+            args '--mod', 'water_is_dangerous', '--all', '--output', file('src/main/resources/'), '--existing', file('src/main/resources/')
 
             mods {
-                backrooms {
+                water_is_dangerous {
                     source sourceSets.main
                 }
             }
@@ -120,7 +119,7 @@ dependencies {
     // You may put jars on which you depend on in ./libs or you may define them like so..
     // compile "some.group:artifact:version:classifier"
     // compile "some.group:artifact:version"
-
+    annotationProcessor 'org.spongepowered:mixin:0.8.5:processor'
     // Real examples
     // compile 'com.mod-buildcraft:buildcraft:6.0.8:dev'  // adds buildcraft to the dev env
     // compile 'com.googlecode.efficient-java-matrix-library:ejml:0.24' // adds ejml to the dev env
@@ -140,7 +139,7 @@ dependencies {
 jar {
     manifest {
         attributes([
-            "Specification-Title": "Backrooms",
+            "Specification-Title": "water_is_dangerous",
             "Specification-Vendor": "examplemodsareus",
             "Specification-Version": "1", // We are version 1 of ourselves
             "Implementation-Title": project.name,
@@ -161,7 +160,7 @@ jar.finalizedBy('reobfJar')
 publishing {
     publications {
         mavenJava(MavenPublication) {
-            artifact jar
+            //artifact jar
         }
     }
     repositories {
@@ -169,4 +168,8 @@ publishing {
             url "file:///${project.projectDir}/mcmodsrepo"
         }
     }
+}
+mixin {
+    add sourceSets.main, "mixins.water_is_dangerous.refmap.json"
+    config "mixins.water_is_dangerous.json"
 }

@@ -1,0 +1,10 @@
+{
+  "package": "funny.mixin",
+  "setSourceFile": true,
+  "mixins": [
+    "MixinEntity",
+    "MixinAbstractBlockState",
+    "MixinEffectInstance",
+    "MixinCreatureEntity"
+  ]
+}
