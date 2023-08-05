@@ -1,4 +1,4 @@
-package funny;
+package water_is_dangerous;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;

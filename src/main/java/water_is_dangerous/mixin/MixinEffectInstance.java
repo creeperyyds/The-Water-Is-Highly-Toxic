@@ -1,4 +1,4 @@
-package funny.mixin;
+package water_is_dangerous.mixin;
 
 import funny.EffectAppender;
 import net.minecraft.entity.LivingEntity;

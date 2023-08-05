@@ -1,4 +1,4 @@
-package funny;
+package water_is_dangerous;
 
 import net.minecraft.potion.Effect;
 import net.minecraft.potion.EffectType;

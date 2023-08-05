@@ -1,4 +1,4 @@
 @ParametersAreNonnullByDefault
-package funny;
+package water_is_dangerous;
 
 import javax.annotation.ParametersAreNonnullByDefault;

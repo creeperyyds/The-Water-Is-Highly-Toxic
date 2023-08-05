@@ -1,4 +1,4 @@
-package funny;
+package water_is_dangerous;
 
 import jdk.nashorn.internal.ir.Block;
 import net.minecraft.nbt.CompoundNBT;

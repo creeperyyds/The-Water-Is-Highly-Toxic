@@ -15,7 +15,7 @@ license = "All rights reserved"
 # A list of mods - how many allowed here is determined by the individual mod loader
 [[mods]] #mandatory
 # The modid of the mod
-modId = "funny" #mandatory
+modId = "water_is_dangerous" #mandatory
 # The version number of the mod - there's a few well known ${} variables useable here or just hardcode it
 # ${file.jarVersion} will substitute the value of the Implementation-Version as read from the mod's JAR file metadata
 # see the associated build.gradle script for how to populate this completely automatically during a build
@@ -35,7 +35,7 @@ authors = "Mr_Meng" #optional
 # The description text for the mod (multi line!) (#mandatory)
 description = "aaa"
 # A dependency - use the . to indicate dependency for a specific modid. Dependencies are optional.
-[[dependencies.funny]] #optional
+[[dependencies.water_is_dangerous]] #optional
 # the modid of the dependency
 modId = "forge" #mandatory
 # Does this dependency have to exist - if not, ordering below must be specified
