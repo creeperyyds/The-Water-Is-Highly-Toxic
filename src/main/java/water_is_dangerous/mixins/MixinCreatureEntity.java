@@ -1,6 +1,6 @@
-package water_is_dangerous.mixin;
+package water_is_dangerous.mixins;
 
-import funny.Util;
+import water_is_dangerous.Util;
 import net.minecraft.entity.CreatureEntity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;

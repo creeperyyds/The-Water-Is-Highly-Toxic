@@ -1,6 +1,6 @@
-package water_is_dangerous.mixin;
+package water_is_dangerous.mixins;
 
-import funny.EffectAppender;
+import water_is_dangerous.EffectAppender;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.potion.Effect;
 import net.minecraft.potion.EffectInstance;

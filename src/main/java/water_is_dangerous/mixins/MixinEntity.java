@@ -1,7 +1,7 @@
-package water_is_dangerous.mixin;
+package water_is_dangerous.mixins;
 
-import funny.Main;
-import funny.Util;
+import water_is_dangerous.Main;
+import water_is_dangerous.Util;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.inventory.EquipmentSlotType;

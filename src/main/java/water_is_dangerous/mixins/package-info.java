@@ -1,4 +1,4 @@
 @ParametersAreNonnullByDefault
-package water_is_dangerous.mixin;
+package water_is_dangerous.mixins;
 
 import javax.annotation.ParametersAreNonnullByDefault;
