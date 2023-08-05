@@ -1,5 +1,5 @@
 {
-  "package": "funny.mixin",
+  "package": "water_is_dangerous.mixin",
   "setSourceFile": true,
   "mixins": [
     "MixinEntity",

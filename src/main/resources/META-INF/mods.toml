@@ -27,7 +27,7 @@ displayName = "哇作为一个模组简介第一次被人看好只因动！" #ma
 # A URL for the "homepage" for this mod, displayed in the mod UI
 #displayURL="https://change.me.to.your.mods.homepage.example.invalid/" #optional
 # A file name (in the root of the mod JAR) containing a logo for display
-logoFile = "backrooms.png" #optional
+logoFile = "" #optional
 # A text field displayed in the mod UI
 credits = "Thanks for this example mod goes to Java" #optional
 # A text field displayed in the mod UI
