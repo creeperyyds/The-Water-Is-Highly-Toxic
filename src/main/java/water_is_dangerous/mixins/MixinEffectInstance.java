@@ -23,16 +23,22 @@ public abstract class MixinEffectInstance {
     private Effect effect;
 
     @Shadow private int duration;
+    private int startCountDownTime;
 
     @Inject(method = "<init>(Lnet/minecraft/potion/Effect;I)V", at = @At("RETURN"))
     public void init(Effect effect, int duration, CallbackInfo ci) {
         if (effect instanceof EffectAppender) {
+            this.startCountDownTime = duration;
             ((EffectAppender) effect).setDuration(duration);
         }
     }
 
     @Inject(method = "tick", at = @At(value = "INVOKE", target = "Lnet/minecraft/potion/EffectInstance;tickDownDuration()I"))
     public void tick(LivingEntity entity, Runnable runnable, CallbackInfoReturnable<Boolean> cir) {
+        if (startCountDownTime - this.duration == 20 && entity.isInWaterRainOrBubble()) {
+            this.duration += 40;
+            this.startCountDownTime = this.duration;
+        }
         if (this.effect instanceof EffectAppender && !entity.level.isClientSide) {
             Predicate<Integer> predicate = ((EffectAppender) this.effect).getPredicate();
             if (predicate != null && predicate.test(this.duration)) {

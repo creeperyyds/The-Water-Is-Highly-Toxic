@@ -34,7 +34,6 @@ public abstract class MixinEntity {
             entityThis.hurt(Util.SULFURIC, 4);
             return;
         }
-        @SuppressWarnings("all")
         LivingEntity livingThis = (LivingEntity) entityThis;
         int armorValue = 1;
         HashMap<EquipmentSlotType, ItemStack> stacks = new HashMap<>();
@@ -60,11 +59,7 @@ public abstract class MixinEntity {
         }
         entityThis.hurt(Util.SULFURIC, 2f / armorValue);
         if (livingThis.hasEffect(Main.RADIOACTIVITY.get())) {
-            livingThis.addEffect(new EffectInstance(Main.RADIOACTIVITY.get(),
-                    Objects.requireNonNull(livingThis.getEffect(Main.RADIOACTIVITY.get())).getDuration() + 40));
-            //ci.cancel();
-            return;
+            livingThis.addEffect(new EffectInstance(Main.RADIOACTIVITY.get(), 40));
         }
-        livingThis.addEffect(new EffectInstance(Main.RADIOACTIVITY.get(), 40));
     }
 }

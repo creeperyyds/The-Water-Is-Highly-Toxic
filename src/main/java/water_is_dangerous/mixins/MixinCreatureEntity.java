@@ -19,7 +19,7 @@ public abstract class MixinCreatureEntity {
     @Inject(method = "<init>", at = @At("RETURN"))
     public void init(EntityType<? extends CreatureEntity> type, World world, CallbackInfo ci) {
         CreatureEntity creatureThis = (CreatureEntity) (Object) this;
-        if (!Util.isAquatic((LivingEntity) (Object) this)) { //没有远古守卫者是因为它直接继承于GuardianEntity
+        if (!Util.isAquatic(creatureThis)) { //没有远古守卫者是因为它直接继承于GuardianEntity
             creatureThis.goalSelector.addGoal(0, new WaterAvoidingRandomWalkingGoal(creatureThis, Double.MIN_VALUE));
         }
     }
