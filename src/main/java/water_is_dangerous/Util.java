@@ -67,7 +67,6 @@ public final class Util {
             try {
                 parameterizedClass = Class.forName(((ParameterizedType) field.getGenericType()).getActualTypeArguments()[0].getTypeName());
             } catch (ClassNotFoundException e) {
-                LogManager.getLogger().fatal(field.getName());
                 throw new RuntimeException(e);
             }
             if (isExtendsFrom(parameterizedClass, MonsterEntity.class)
