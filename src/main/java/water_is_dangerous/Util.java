@@ -3,7 +3,6 @@ package water_is_dangerous;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.IRangedAttackMob;
-import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.monster.DrownedEntity;
 import net.minecraft.entity.monster.GuardianEntity;
 import net.minecraft.entity.monster.MonsterEntity;
@@ -12,14 +11,10 @@ import net.minecraft.entity.passive.WaterMobEntity;
 import net.minecraft.entity.projectile.ProjectileEntity;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.math.BlockPos;
-import org.apache.logging.log4j.LogManager;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.ParameterizedType;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
+import java.util.*;
 
 /**
  * @author 启梦
@@ -28,10 +23,11 @@ import java.util.List;
 public final class Util {
     public static final String MOD_ID = "water_is_dangerous";
     public static final HashSet<Entity> GLOW_GREEN_ENTITIES = new HashSet<>();
-    public static final HashSet<EntityType<?>> DANGER_ENTITIES = new HashSet<>();
+    public static final HashSet<EntityType<? extends Entity>> DANGER_ENTITIES = new HashSet<>();
     public static final HashMap<BlockPos, Integer> RAIN_TICK_TIME_MAP = new HashMap<>();
     public static final DamageSource SULFURIC = new DamageSource("Sulfuric").setScalesWithDifficulty().bypassArmor();
     public static final DamageSource RADIOACTIVITY = new DamageSource("Radioactivity").setScalesWithDifficulty();
+    public static final DamageSource ENTITY_THORN = new DamageSource("Boom").setScalesWithDifficulty();
     public static final HashSet<DamageSource> DAMAGE_SOURCES = new HashSet<>();
     public static boolean isExtendsFrom(Class<?> query, Class<?> superclass) {
         return query != superclass && (superclass == Object.class || query.getSuperclass() == superclass);
@@ -75,7 +71,10 @@ public final class Util {
                     || isImplementsFrom(parameterizedClass, IRangedAttackMob.class)
                     || isExtendsFrom(parameterizedClass, ProjectileEntity.class)) {
                 try {
-                    DANGER_ENTITIES.add((EntityType<?>) field.get(null));
+                    EntityType<? extends Entity> entityType = (EntityType<? extends Entity>) field.get(null);
+                    if (entityType != EntityType.WITHER && entityType != EntityType.GIANT) {
+                        DANGER_ENTITIES.add();
+                    }
                 } catch (IllegalAccessException ignored) {} //不会发生
             }
         }

@@ -70,6 +70,10 @@ public abstract class MixinWorldRenderer {
     @Shadow protected abstract void renderWorldBounds(ActiveRenderInfo p_228447_1_);
     @Shadow protected abstract void renderDebug(ActiveRenderInfo p_228446_1_);
     @Overwrite
+    /**
+     * @author 启梦
+     * @reason {@link org.spongepowered.asm.mixin.injection.Inject}用不了啊啊啊啊啊啊啊啊
+     */
     public void renderLevel(MatrixStack p_228426_1_, float p_228426_2_, long p_228426_3_, boolean p_228426_5_, ActiveRenderInfo p_228426_6_, GameRenderer p_228426_7_, LightTexture p_228426_8_, Matrix4f p_228426_9_) {
         TileEntityRendererDispatcher.instance.prepare(this.level, this.minecraft.getTextureManager(), this.minecraft.font, p_228426_6_, this.minecraft.hitResult);
         this.entityRenderDispatcher.prepare(this.level, p_228426_6_, this.minecraft.crosshairPickEntity);
@@ -183,6 +187,7 @@ public abstract class MixinWorldRenderer {
                         int l2 = i2 >> 8 & 255;
                         int i3 = i2 & 255;
                         outlinelayerbuffer.setColor(k2, l2, i3, 255);
+                        //修改处
                     } else if (water_is_dangerous.Util.GLOW_GREEN_ENTITIES.contains(entity)) {
                         OutlineLayerBuffer outlineLayerBuffer = this.renderBuffers.outlineBufferSource();
                         irendertypebuffer = outlineLayerBuffer;
