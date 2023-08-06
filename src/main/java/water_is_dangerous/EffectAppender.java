@@ -2,7 +2,6 @@ package water_is_dangerous;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.potion.EffectInstance;
 
 import java.util.function.Predicate;
 
@@ -16,10 +15,6 @@ public interface EffectAppender {
     default Predicate<Integer> getPredicate() {
         return null;
     }
-    default void onStart(Entity entity) {
-
-    }
-    default void onEnd(Entity entity) {
-
-    }
+    default void onStart(LivingEntity entity) {}
+    default void onEnd(LivingEntity entity) {}
 }

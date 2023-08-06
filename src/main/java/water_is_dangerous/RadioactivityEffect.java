@@ -46,12 +46,12 @@ public class RadioactivityEffect extends Effect implements EffectAppender {
     }
 
     @Override
-    public void onStart(Entity entity) {
+    public void onStart(LivingEntity entity) {
         Util.GLOW_GREEN_ENTITIES.add(entity);
     }
 
     @Override
-    public void onEnd(Entity entity) {
+    public void onEnd(LivingEntity entity) {
         Util.GLOW_GREEN_ENTITIES.remove(entity);
     }
 }

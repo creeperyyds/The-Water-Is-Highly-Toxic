@@ -21,28 +21,33 @@ import java.util.function.Predicate;
 public abstract class MixinEffectInstance {
     @Shadow @Final
     private Effect effect;
-
     @Shadow private int duration;
-    private int startCountDownTime;
+    private int startCountDownTime, startDuration;
 
     @Inject(method = "<init>(Lnet/minecraft/potion/Effect;I)V", at = @At("RETURN"))
     public void init(Effect effect, int duration, CallbackInfo ci) {
         if (effect instanceof EffectAppender) {
-            this.startCountDownTime = duration;
+            this.startCountDownTime = this.startDuration = duration;
             ((EffectAppender) effect).setDuration(duration);
         }
     }
 
-    @Inject(method = "tick", at = @At(value = "INVOKE", target = "Lnet/minecraft/potion/EffectInstance;tickDownDuration()I"))
+    @Inject(method = "tick", at = @At(value = "INVOKE_ASSIGN", target = "Lnet/minecraft/potion/EffectInstance;tickDownDuration()I"))
     public void tick(LivingEntity entity, Runnable runnable, CallbackInfoReturnable<Boolean> cir) {
         if (startCountDownTime - this.duration == 20 && entity.isInWaterRainOrBubble()) {
             this.duration += 40;
             this.startCountDownTime = this.duration;
         }
         if (this.effect instanceof EffectAppender && !entity.level.isClientSide) {
-            Predicate<Integer> predicate = ((EffectAppender) this.effect).getPredicate();
+            EffectAppender effectAppender = (EffectAppender) this.effect;
+            if (this.duration == 0) {
+                effectAppender.onEnd(entity);
+            } else if (this.startDuration - this.duration == 1) {
+                effectAppender.onStart(entity);
+            }
+            Predicate<Integer> predicate = effectAppender.getPredicate();
             if (predicate != null && predicate.test(this.duration)) {
-                ((EffectAppender) this.effect).applyTick(entity, this.duration);
+                effectAppender.applyTick(entity, this.duration);
             }
         }
     }

@@ -1,5 +1,6 @@
 package water_is_dangerous.mixins;
 
+import net.minecraft.potion.Effect;
 import water_is_dangerous.Main;
 import water_is_dangerous.Util;
 import net.minecraft.entity.Entity;
@@ -58,8 +59,10 @@ public abstract class MixinEntity {
             getStack.hurtAndBreak(RANDOM.nextInt(1, 5), livingThis, entity -> entity.broadcastBreakEvent(stack.getKey()));
         }
         entityThis.hurt(Util.SULFURIC, 2f / armorValue);
-        if (livingThis.hasEffect(Main.RADIOACTIVITY.get())) {
-            livingThis.addEffect(new EffectInstance(Main.RADIOACTIVITY.get(), 40));
+        Effect radioactivity = Main.RADIOACTIVITY.get();
+        if (!livingThis.hasEffect(radioactivity)) {
+            livingThis.addEffect(new EffectInstance(radioactivity, 40)); //相关代码处理逻辑在MixinEffectInstance里
+            Util.GLOW_GREEN_ENTITIES.add(livingThis);
         }
     }
 }

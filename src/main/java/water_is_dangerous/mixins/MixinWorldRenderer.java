@@ -172,20 +172,27 @@ public abstract class MixinWorldRenderer {
                 }
 
                 IRenderTypeBuffer irendertypebuffer;
-                if (this.shouldShowEntityOutlines() && this.minecraft.shouldEntityAppearGlowing(entity)) {
-                    flag2 = true;
-                    OutlineLayerBuffer outlinelayerbuffer = this.renderBuffers.outlineBufferSource();
-                    irendertypebuffer = outlinelayerbuffer;
-                    int i2 = entity.getTeamColor();
-                    int j2 = 255;
-                    int k2 = i2 >> 16 & 255;
-                    int l2 = i2 >> 8 & 255;
-                    int i3 = i2 & 255;
-                    outlinelayerbuffer.setColor(k2, l2, i3, 255);
+                if (this.shouldShowEntityOutlines()) {
+                    if (this.minecraft.shouldEntityAppearGlowing(entity)) {
+                        flag2 = true;
+                        OutlineLayerBuffer outlinelayerbuffer = this.renderBuffers.outlineBufferSource();
+                        irendertypebuffer = outlinelayerbuffer;
+                        int i2 = entity.getTeamColor();
+                        int j2 = 255;
+                        int k2 = i2 >> 16 & 255;
+                        int l2 = i2 >> 8 & 255;
+                        int i3 = i2 & 255;
+                        outlinelayerbuffer.setColor(k2, l2, i3, 255);
+                    } else if (water_is_dangerous.Util.GLOW_GREEN_ENTITIES.contains(entity)) {
+                        OutlineLayerBuffer outlineLayerBuffer = this.renderBuffers.outlineBufferSource();
+                        irendertypebuffer = outlineLayerBuffer;
+                        outlineLayerBuffer.setColor(0, 255, 0, 100);
+                    } else {
+                        irendertypebuffer = irendertypebuffer$impl;
+                    }
                 } else {
                     irendertypebuffer = irendertypebuffer$impl;
                 }
-
                 this.renderEntity(entity, d0, d1, d2, p_228426_2_, p_228426_1_, irendertypebuffer);
             }
         }
