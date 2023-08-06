@@ -1,7 +1,9 @@
 package water_is_dangerous;
 
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.potion.Effect;
+import net.minecraft.potion.EffectInstance;
 import net.minecraft.potion.EffectType;
 
 import java.util.function.Predicate;
@@ -41,5 +43,15 @@ public class RadioactivityEffect extends Effect implements EffectAppender {
     @Override
     public Predicate<Integer> getPredicate() {
         return duration -> (startDuration - duration) % 50 == 0;
+    }
+
+    @Override
+    public void onStart(Entity entity) {
+        Util.GLOW_GREEN_ENTITIES.add(entity);
+    }
+
+    @Override
+    public void onEnd(Entity entity) {
+        Util.GLOW_GREEN_ENTITIES.remove(entity);
     }
 }

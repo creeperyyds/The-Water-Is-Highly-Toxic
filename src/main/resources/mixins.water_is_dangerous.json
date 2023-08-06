@@ -5,6 +5,7 @@
     "MixinEntity",
     "MixinAbstractBlockState",
     "MixinEffectInstance",
-    "MixinCreatureEntity"
+    "MixinCreatureEntity",
+    "MixinWorldRenderer"
   ]
 }

@@ -11,7 +11,7 @@ import net.minecraftforge.registries.ForgeRegistries;
 /**
  * @author 启梦
  */
-@Mod("water_is_dangerous")
+@Mod(Util.MOD_ID)
 @SuppressWarnings("unuesd")
 public class Main {
     private static final DeferredRegister<Effect> EFFECTS = DeferredRegister.create(ForgeRegistries.POTIONS, "funny");

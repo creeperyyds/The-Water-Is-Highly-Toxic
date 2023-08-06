@@ -26,6 +26,8 @@ import java.util.List;
  */
 @SuppressWarnings("unused")
 public final class Util {
+    public static final String MOD_ID = "water_is_dangerous";
+    public static final HashSet<Entity> GLOW_GREEN_ENTITIES = new HashSet<>();
     public static final HashSet<EntityType<?>> DANGER_ENTITIES = new HashSet<>();
     public static final HashMap<BlockPos, Integer> RAIN_TICK_TIME_MAP = new HashMap<>();
     public static final DamageSource SULFURIC = new DamageSource("Sulfuric").setScalesWithDifficulty().bypassArmor();
