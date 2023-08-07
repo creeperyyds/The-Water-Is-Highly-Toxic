@@ -19,7 +19,6 @@ import java.util.*;
 /**
  * @author 启梦
  */
-@SuppressWarnings("unused")
 public final class Util {
     public static final String MOD_ID = "water_is_dangerous";
     public static final HashSet<Entity> GLOW_GREEN_ENTITIES = new HashSet<>();
@@ -28,7 +27,6 @@ public final class Util {
     public static final DamageSource SULFURIC = new DamageSource("Sulfuric").setScalesWithDifficulty().bypassArmor();
     public static final DamageSource RADIOACTIVITY = new DamageSource("Radioactivity").setScalesWithDifficulty();
     public static final DamageSource ENTITY_THORN = new DamageSource("Boom").setScalesWithDifficulty();
-    public static final HashSet<DamageSource> DAMAGE_SOURCES = new HashSet<>();
     public static boolean isExtendsFrom(Class<?> query, Class<?> superclass) {
         return query != superclass && (superclass == Object.class || query.getSuperclass() == superclass);
     }
@@ -73,18 +71,10 @@ public final class Util {
                 try {
                     EntityType<? extends Entity> entityType = (EntityType<? extends Entity>) field.get(null);
                     if (entityType != EntityType.WITHER && entityType != EntityType.GIANT) {
-                        DANGER_ENTITIES.add();
+                        DANGER_ENTITIES.add(entityType);
                     }
                 } catch (IllegalAccessException ignored) {} //不会发生
             }
-        }
-        for (Field field : DamageSource.class.getFields()) {
-            if (field.getType() != DamageSource.class) {
-                continue;
-            }
-            try {
-                DAMAGE_SOURCES.add((DamageSource) field.get(null));
-            } catch (Exception ignored) {} //不会发生
         }
     }
 }
