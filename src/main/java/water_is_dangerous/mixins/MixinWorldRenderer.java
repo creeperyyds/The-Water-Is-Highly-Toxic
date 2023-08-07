@@ -23,7 +23,7 @@ public abstract class MixinWorldRenderer {
     private IRenderTypeBuffer modifyRenderArg(Entity p_229084_1_, double p_229084_2_, double p_229084_4_, double p_229084_6_, float p_229084_8_, float p_229084_9_, MatrixStack p_229084_10_, IRenderTypeBuffer p_229084_11_, int p_229084_12_) {
         if (Util.GLOW_GREEN_ENTITIES.contains(p_229084_1_)) {
             OutlineLayerBuffer layerBuffer = this.renderBuffers.outlineBufferSource();
-            layerBuffer.setColor(0, 255, 0, 100);
+            layerBuffer.setColor(0, 255, 0, 70);
             return layerBuffer;
         }
         return p_229084_11_;
