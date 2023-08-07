@@ -40,11 +40,6 @@ public abstract class MixinEffectInstance {
         }
         if (this.effect instanceof EffectAppender && !entity.level.isClientSide) {
             EffectAppender effectAppender = (EffectAppender) this.effect;
-            if (this.duration == 0) {
-                effectAppender.onEnd(entity);
-            } else if (this.startDuration - this.duration == 1) {
-                effectAppender.onStart(entity);
-            }
             Predicate<Integer> predicate = effectAppender.getPredicate();
             if (predicate != null && predicate.test(this.duration)) {
                 effectAppender.applyTick(entity, this.duration);

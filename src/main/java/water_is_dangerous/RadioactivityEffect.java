@@ -17,6 +17,8 @@ public class RadioactivityEffect extends Effect implements EffectAppender {
         super(type, color);
     }
 
+
+
     @Override
     public boolean isBeneficial() {
         return false;
@@ -24,6 +26,7 @@ public class RadioactivityEffect extends Effect implements EffectAppender {
 
     @Override
     public void applyTick(LivingEntity entity, int duration) {
+        Util.GLOW_GREEN_ENTITIES.add(entity);
         int time = startDuration - duration;
         if (time > 100) {
             entity.hurt(Util.RADIOACTIVITY, time / 100f);
@@ -36,22 +39,7 @@ public class RadioactivityEffect extends Effect implements EffectAppender {
     }
 
     @Override
-    public void addDuration(int addVal) {
-        this.startDuration += addVal;
-    }
-
-    @Override
     public Predicate<Integer> getPredicate() {
         return duration -> (startDuration - duration) % 50 == 0;
-    }
-
-    @Override
-    public void onStart(LivingEntity entity) {
-        Util.GLOW_GREEN_ENTITIES.add(entity);
-    }
-
-    @Override
-    public void onEnd(LivingEntity entity) {
-        Util.GLOW_GREEN_ENTITIES.remove(entity);
     }
 }

@@ -11,6 +11,7 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import water_is_dangerous.Event;
 import water_is_dangerous.Main;
 import water_is_dangerous.Util;
 
@@ -27,7 +28,7 @@ public abstract class MixinEntity {
     @Inject(method = "tick", at = @At("RETURN"))
     public void tick(CallbackInfo ci) {
         Entity entityThis = (Entity) (Object) this;
-        if (entityThis.level.isClientSide || !entityThis.isInWaterRainOrBubble() || Util.isAquatic(entityThis)) {
+        if (entityThis.level.isClientSide || !entityThis.isInWaterRainOrBubble() || Util.isAquatic(entityThis) || ((Entity) (Object) this).getTags().contains(Event.VARIATION)) {
             return;
         }
         if (!(entityThis instanceof LivingEntity)) {
