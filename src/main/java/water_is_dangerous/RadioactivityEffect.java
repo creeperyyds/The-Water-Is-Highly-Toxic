@@ -17,8 +17,6 @@ public class RadioactivityEffect extends Effect implements EffectAppender {
         super(type, color);
     }
 
-
-
     @Override
     public boolean isBeneficial() {
         return false;

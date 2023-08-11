@@ -55,6 +55,7 @@ public final class Util {
         DANGER_ENTITIES.add(EntityType.TNT_MINECART);
         DANGER_ENTITIES.add(EntityType.LIGHTNING_BOLT);
         DANGER_ENTITIES.add(EntityType.EVOKER_FANGS);
+        DANGER_ENTITIES.add(EntityType.BEE);
         for (Field field : EntityType.class.getFields()) {
             if (field.getType() != EntityType.class) {
                 continue;
