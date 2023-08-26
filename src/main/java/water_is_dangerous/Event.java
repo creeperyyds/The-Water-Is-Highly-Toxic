@@ -34,6 +34,7 @@ import static net.minecraft.item.Items.*;
 public class Event {
     public static final String VARIATION = "variation", GOLEM = "golem";
     private static final ThreadLocalRandom RANDOM = ThreadLocalRandom.current();
+    private static final FloatNBT NAN_FLOAT_NBT = FloatNBT.valueOf(Float.NaN);
     @SubscribeEvent
     public static void onEntityDie(LivingDeathEvent event) {
         LivingEntity livingEntity = event.getEntityLiving();
@@ -93,65 +94,101 @@ public class Event {
 
     @SubscribeEvent
     public static void onEntityHurt(LivingHurtEvent event) {
-        Entity entity = event.getSource().getEntity();
-        if (entity == null) {
+        Entity hurtEntity = event.getSource().getEntity();
+        LivingEntity getDamageEntity = event.getEntityLiving();
+        if (hurtEntity == null) {
             return;
         }
-        World world = entity.level;
-        if (!entity.getTags().contains(VARIATION)  || world.isClientSide || entity instanceof PlayerEntity) {
+        World world = hurtEntity.level;
+        if (!getDamageEntity.getTags().contains(VARIATION)  || world.isClientSide || hurtEntity instanceof PlayerEntity) {
             return;
         }
-        if (!entity.getTags().contains(GOLEM)) {
+        if (!hurtEntity.getTags().contains(GOLEM)) {
             event.setCanceled(true);
             return;
         }
         int randInt = RANDOM.nextInt(100);
         if (randInt < 5 ) {
-            entity.hurt(Util.ENTITY_THORN, 5);
+            hurtEntity.hurt(Util.ENTITY_THORN, 5);
         } else if (randInt < 15) {
-            ListNBT dropChances = new ListNBT(), armorItems = new ListNBT(), handDropChances = new ListNBT();
-            for (int i = 0; i < 4; i++) {
-                dropChances.add(FloatNBT.ZERO);
-            }
-            handDropChances.add(FloatNBT.ZERO);
-            handDropChances.add(FloatNBT.ZERO);
-            armorItems.add(nbtOfOpArmor(NETHERITE_HELMET));
-            armorItems.add(nbtOfOpArmor(NETHERITE_CHESTPLATE));
-            armorItems.add(nbtOfOpArmor(NETHERITE_LEGGINGS));
-            armorItems.add(nbtOfOpArmor(NETHERITE_BOOTS));
             for (int i = 0; i < 5; i++) {
-                CompoundNBT entityNbt = new CompoundNBT();
-                String id = EntityType.getKey((EntityType<? extends Entity>)
-                        Util.DANGER_ENTITIES.toArray()[RANDOM.nextInt(Util.DANGER_ENTITIES.size())]).toString();
-                entityNbt.putString("id", id);
-                entityNbt.putBoolean("PersistenceRequired", true);
-                entityNbt.putString("CustomName", "{'text':'为了§m恶心玩家§r让游戏更困难而搞出来的东西'}");
-                entityNbt.put("ArmorDropChances", dropChances);
-                entityNbt.put("ArmorItems", armorItems);
-                entityNbt.put("HandDropChances", handDropChances);
-                entityNbt.put("HandItems", nbtOfEntityHand(id));
-                entityNbt.putBoolean("CanPickUpLoot", false);
-                switch (id) {
-                    case "minecraft:tnt":
-                    case "minecraft:tnt_minecart":
-                        entityNbt.putInt("Fuse", 10);
-                        break;
-                    case "minecraft:creeper":
-                        entityNbt.putByte("ExplosionRadius", (byte) 20);
-                        entityNbt.putBoolean("powered", true);
-                        break;
-                    case "minecraft:bee":
-                        entityNbt.putInt("AngerTime", Integer.MAX_VALUE);
-                        entityNbt.putUUID("AngerAt", entity.getUUID());
-                        break;
-                    case "minecraft:zombie":
-                    case "minecraft:husk":
-                    case "minecraft:drowned":
-                        entityNbt.putBoolean("CanBreakDoor", true);
-                        entityNbt.putBoolean("IsBaby", true);
-                }
+                EntityType.loadEntityRecursive(getOpEntity(hurtEntity), world, entity -> {
+                    entity.moveTo(
+                            hurtEntity.getX() + RANDOM.nextDouble(5, -5),
+                            hurtEntity.getY(),
+                            hurtEntity.getZ() + RANDOM.nextDouble(5, -5));
+                    return entity;
+                });
             }
         }
+    }
+
+    private static CompoundNBT getOpEntity(Entity hurtEntity) {
+        ListNBT armorDropChances = new ListNBT(), armorItems = new ListNBT(), handDropChances = new ListNBT();
+        for (int i = 0; i < 4; i++) {
+            armorDropChances.add(NAN_FLOAT_NBT);
+        }
+        handDropChances.add(NAN_FLOAT_NBT);
+        handDropChances.add(NAN_FLOAT_NBT);
+        armorItems.add(nbtOfOpArmor(NETHERITE_HELMET));
+        armorItems.add(nbtOfOpArmor(NETHERITE_CHESTPLATE));
+        armorItems.add(nbtOfOpArmor(NETHERITE_LEGGINGS));
+        armorItems.add(nbtOfOpArmor(NETHERITE_BOOTS));
+        CompoundNBT lootTable = new CompoundNBT();
+        lootTable.putString("DeathLootTable", "empty");
+        CompoundNBT entityNbt = new CompoundNBT();
+        String id = EntityType.getKey((EntityType<? extends Entity>)
+                Util.DANGER_ENTITIES.toArray()[RANDOM.nextInt(Util.DANGER_ENTITIES.size())]).toString();
+        entityNbt.putString("id", id);
+        entityNbt.putBoolean("PersistenceRequired", true);
+        entityNbt.putString("CustomName", "{'text':'为了§m恶心玩家§r让游戏更困难而搞出来的东西'}");
+        entityNbt.put("ArmorDropChances", armorDropChances);
+        entityNbt.put("ArmorItems", armorItems);
+        entityNbt.put("HandDropChances", handDropChances);
+        entityNbt.put("HandItems", nbtOfEntityHand(id));
+        entityNbt.putBoolean("CanPickUpLoot", false);
+        entityNbt.putBoolean("Silent", true);
+
+        switch (id) {
+            case "minecraft:tnt":
+            case "minecraft:tnt_minecart":
+                entityNbt.putInt("Fuse", 10);
+                break;
+            case "minecraft:creeper":
+                entityNbt.putByte("ExplosionRadius", (byte) 20);
+                entityNbt.putBoolean("powered", true);
+                break;
+            case "minecraft:bee":
+            case "minecraft:iron_golem":
+                entityNbt.putInt("AngerTime", Integer.MAX_VALUE);
+                entityNbt.putUUID("AngerAt", hurtEntity.getUUID());
+                break;
+            case "minecraft:zombie":
+            case "minecraft:husk":
+            case "minecraft:drowned":
+                entityNbt.putBoolean("CanBreakDoor", true);
+                entityNbt.putBoolean("IsBaby", true);
+                break;
+            case "minecraft:ghast":
+                entityNbt.putByte("ExplosionPower", (byte) 20);
+                break;
+            case "minecraft:evoker":
+            case "minecraft:illusioner":
+                entityNbt.putInt("SpellTicks", 0);
+                break;
+            case "minecraft:slime":
+            case "minecraft:magma_cube":
+            case "minecraft:phantom":
+                entityNbt.putInt("Size", 30);
+                break;
+            case "minecraft:piglin":
+            case "minecraft:piglin_brute":
+                entityNbt.putBoolean("IsImmuneToZombification", true);
+        }
+        if (RANDOM.nextInt(0, 100) < 15) {
+            entityNbt.put("Passengers", getOpEntity(hurtEntity));
+        }
+        return entityNbt;
     }
 
     private static void variation(LivingEntity entity) {
@@ -232,9 +269,9 @@ public class Event {
             itemStack.enchant(enchantment, Short.MAX_VALUE);
         }
         ListNBT lore = new ListNBT();
-        lore.add(StringNBT.valueOf(ITextComponent.Serializer.toJson(ITextComponent.nullToEmpty("不过，说不定，你只是一个§f§m§n§o干净的白客§r§j§n§o肮脏的黑客呢§r呢？"))));
         itemStack.setHoverName(ITextComponent.nullToEmpty("所以说？你是怎么看到这条消息的？如果有bug的话，请告知作者，谢谢！"))
                 .getOrCreateTagElement("display").put("Lore", lore);
+        lore.add(StringNBT.valueOf(ITextComponent.Serializer.toJson(ITextComponent.nullToEmpty("不过，说不定，你只是一个§f§m§n§o干净的白客§r§j§n§o肮脏的黑客呢§r呢？"))));
         return itemStack.save(new CompoundNBT());
     }
 

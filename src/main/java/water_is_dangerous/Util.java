@@ -56,6 +56,9 @@ public final class Util {
         DANGER_ENTITIES.add(EntityType.LIGHTNING_BOLT);
         DANGER_ENTITIES.add(EntityType.EVOKER_FANGS);
         DANGER_ENTITIES.add(EntityType.BEE);
+        DANGER_ENTITIES.add(EntityType.IRON_GOLEM);
+        DANGER_ENTITIES.add(EntityType.PHANTOM);
+        DANGER_ENTITIES.add(EntityType.PUFFERFISH);
         for (Field field : EntityType.class.getFields()) {
             if (field.getType() != EntityType.class) {
                 continue;
