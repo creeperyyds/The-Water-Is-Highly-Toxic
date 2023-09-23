@@ -22,12 +22,12 @@ public abstract class MixinEffectInstance {
     @Shadow @Final
     private Effect effect;
     @Shadow private int duration;
-    private int startCountDownTime, startDuration;
+    private int startCountDownTime;
 
     @Inject(method = "<init>(Lnet/minecraft/potion/Effect;I)V", at = @At("RETURN"))
     public void init(Effect effect, int duration, CallbackInfo ci) {
         if (effect instanceof EffectAppender) {
-            this.startCountDownTime = this.startDuration = duration;
+            this.startCountDownTime = duration;
             ((EffectAppender) effect).setDuration(duration);
         }
     }
