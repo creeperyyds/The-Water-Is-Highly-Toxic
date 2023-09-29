@@ -1,0 +1,10 @@
+{
+  "item.droplet.drop": {
+    "subtitle": "water_is_dangerous.subtitle.droplet_drop",
+    "sounds": ["water_is_dangerous:droplet_drop"]
+  },
+  "item.droplet.hit": {
+    "subtitle": "water_is_dangerous.subtitle.droplet_hit",
+    "sounds": ["water_is_dangerous:droplet_hit"]
+  }
+}

@@ -3,9 +3,10 @@
   "setSourceFile": true,
   "mixins": [
     "MixinEntity",
-    "MixinAbstractBlockState",
-    "MixinEffectInstance",
     "MixinCreatureEntity",
-    "MixinWorldRenderer"
+    "MixinWorldRenderer",
+    "MixinShearsItem",
+    "MixinSheepWoolLayer",
+    "MixinLivingRenderer"
   ]
 }
