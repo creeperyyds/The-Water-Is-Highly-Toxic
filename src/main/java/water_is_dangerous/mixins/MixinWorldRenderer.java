@@ -26,6 +26,9 @@ public abstract class MixinWorldRenderer {
             layerBuffer.setColor(0, 255, 0, 45);
             return layerBuffer;
         }
+        if (p_229084_1_.getTags().contains()) {
+
+        }
         return p_229084_11_;
     }
 }
