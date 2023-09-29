@@ -8,7 +8,6 @@ import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
-import java.util.Objects;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -25,6 +24,7 @@ public class Weight {
         }
         ServerPlayerEntity serverPlayerEntity = (ServerPlayerEntity) event.player;
         AtomicInteger dropletCount = new AtomicInteger();
+        AtomicBoolean hasAnotherItem = new AtomicBoolean();
         ImmutableList.of(serverPlayerEntity.inventory.items,
                 serverPlayerEntity.inventory.armor,
                 serverPlayerEntity.inventory.offhand).forEach(itemStacks -> {
@@ -32,9 +32,8 @@ public class Weight {
                 if (itemStack.isEmpty()) {
                     return;
                 }
-                boolean hasAnotherItem = false;
                 if (itemStack.getItem() != Main.DROPLET.get()) {
-                    hasAnotherItem = true;
+                    hasAnotherItem.set(true);
                 } else {
                     if (dropletCount.get() == 0) {
                         dropletCount.getAndIncrement();
@@ -42,7 +41,7 @@ public class Weight {
                             SPEED_MAP.put(serverPlayerEntity, serverPlayerEntity.getSpeed());
                             serverPlayerEntity.setSpeed(serverPlayerEntity.getSpeed() / 10f);
                         }
-                    } else if (hasAnotherItem) {
+                    } else if (hasAnotherItem.get()) {
                         serverPlayerEntity.hurt(Util.TOO_HEAVY, Float.MAX_VALUE);
                     }
                 }
