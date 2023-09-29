@@ -26,8 +26,12 @@ public abstract class MixinWorldRenderer {
             layerBuffer.setColor(0, 255, 0, 45);
             return layerBuffer;
         }
-        if (p_229084_1_.getTags().contains()) {
+        if (p_229084_1_.getTags().contains(Util.AUTHOR_SHEEP_PASSENGERS_TAG)) {
+            for (String str : p_229084_1_.getTags()) {
+                if (Util.isNumber(str)) {
 
+                }
+            }
         }
         return p_229084_11_;
     }
