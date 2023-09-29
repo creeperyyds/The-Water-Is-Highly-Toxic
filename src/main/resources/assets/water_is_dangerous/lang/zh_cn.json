@@ -1,9 +1,0 @@
-{
-  "death.attack.Sulfuric": "%1$s被硫酸撅了",
-  "death.attack.Sulfuric.player": "%1$s在%2$s的帮助下喝到了核废水",
-  "death.attack.Sulfuric.player.item": "%2$s用%3$s喂食了%1$s硫酸（或核废水？）",
-  "death.attack.Sulfuric.mob": "%1$s和%2$s之间的霉好友谊促使了%1$s喝下干净又卫生的水",
-  "death.attack.Radioactivity": "%1$s因为体内的§m魔法§r放射性嘎了",
-  "death.attack.Radioactivity.player": "%1$s在%2$s的帮助下体验到了放射性的感觉",
-  "effect.funny.radioactivity": "小日本の礼物"
-}

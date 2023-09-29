@@ -12,6 +12,6 @@ import org.spongepowered.asm.mixin.injection.ModifyConstant;
 public abstract class MixinEntity {
     @ModifyConstant(method = "updateInWaterStateAndDoWaterCurrentPushing", constant = @Constant)
     public float modifyConstantUpdateInWaterStateAndDoWaterCurrentPushing(float origin) {
-        return ((Entity) (Object) this).fallDistance + 10;
+        return ((Entity) (Object) this).fallDistance > 6 ? ((Entity) (Object) this).fallDistance + 3 : ((Entity) (Object) this).fallDistance;
     }
 }

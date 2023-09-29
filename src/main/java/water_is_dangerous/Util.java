@@ -2,31 +2,34 @@ package water_is_dangerous;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
-import net.minecraft.entity.IRangedAttackMob;
 import net.minecraft.entity.monster.DrownedEntity;
 import net.minecraft.entity.monster.GuardianEntity;
-import net.minecraft.entity.monster.MonsterEntity;
 import net.minecraft.entity.passive.TurtleEntity;
 import net.minecraft.entity.passive.WaterMobEntity;
-import net.minecraft.entity.projectile.ProjectileEntity;
+import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.server.ServerWorld;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.ParameterizedType;
-import java.util.*;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.concurrent.ThreadLocalRandom;
+import java.util.function.BiConsumer;
 
 /**
  * @author 启梦
  */
 public final class Util {
-    public static final String MOD_ID = "water_is_dangerous";
+    public static final String MOD_ID = "water_is_dangerous", AUTHOR_SHEEP_NAME = "哈哈，我是一只倒过来的彩虹羊！而且我身上还在着火！";
     public static final HashSet<Entity> GLOW_GREEN_ENTITIES = new HashSet<>();
-    public static final HashSet<EntityType<? extends Entity>> DANGER_ENTITIES = new HashSet<>();
+    public static final HashSet<BiConsumer<ServerWorld, BlockPos>> DANGER_ENTITIES = new HashSet<>();
+    public static final HashSet<EntityType<?>> FRIENDLY_ENTITY_TYPES = new HashSet<>();
     public static final HashMap<BlockPos, Integer> RAIN_TICK_TIME_MAP = new HashMap<>();
-    public static final DamageSource SULFURIC = new DamageSource("Sulfuric").setScalesWithDifficulty().bypassArmor();
-    public static final DamageSource RADIOACTIVITY = new DamageSource("Radioactivity").setScalesWithDifficulty();
-    public static final DamageSource ENTITY_THORN = new DamageSource("Boom").setScalesWithDifficulty();
+    public static final DamageSource TOO_HEAVY = new DamageSource("too_heavy");
     public static boolean isExtendsFrom(Class<?> query, Class<?> superclass) {
         return query != superclass && (superclass == Object.class || query.getSuperclass() == superclass);
     }
@@ -51,34 +54,31 @@ public final class Util {
     }
 
     static {
-        DANGER_ENTITIES.add(EntityType.TNT);
-        DANGER_ENTITIES.add(EntityType.TNT_MINECART);
-        DANGER_ENTITIES.add(EntityType.LIGHTNING_BOLT);
-        DANGER_ENTITIES.add(EntityType.EVOKER_FANGS);
-        DANGER_ENTITIES.add(EntityType.BEE);
-        DANGER_ENTITIES.add(EntityType.IRON_GOLEM);
-        DANGER_ENTITIES.add(EntityType.PHANTOM);
-        DANGER_ENTITIES.add(EntityType.PUFFERFISH);
-        for (Field field : EntityType.class.getFields()) {
-            if (field.getType() != EntityType.class) {
-                continue;
+        try {
+            for (Field field : EntityType.class.getFields()) {
+                if (field.getType() != EntityType.class) {
+                    continue;
+                }
+                if (((ParameterizedType) field.getGenericType()).getActualTypeArguments()[0].getTypeName().startsWith("net.minecraft.entity.passive")) {
+                    FRIENDLY_ENTITY_TYPES.add((EntityType<?>) field.get(null));
+                }
             }
-            Class<?> parameterizedClass;
-            try {
-                parameterizedClass = Class.forName(((ParameterizedType) field.getGenericType()).getActualTypeArguments()[0].getTypeName());
-            } catch (ClassNotFoundException e) {
-                throw new RuntimeException(e);
+        } catch (Exception ignored) {}
+        DANGER_ENTITIES.add((serverWorld, blockPos) -> {
+            CompoundNBT authorSheepNbt = new CompoundNBT();
+            authorSheepNbt.putString("id", EntityType.SHEEP.toString());
+            authorSheepNbt.putString("CustomName", AUTHOR_SHEEP_NAME);
+            authorSheepNbt.putBoolean("CustomNameVisible", false);
+            authorSheepNbt.putBoolean("HasVisualFire", true);
+            authorSheepNbt.putInt("PortalCooldown", 2147483647);
+            int randomVal = ThreadLocalRandom.current().nextInt(6);
+            CompoundNBT lastEntity = authorSheepNbt;
+            for (int i = 0; i < randomVal; i++) {
+                CompoundNBT nowEntity = new CompoundNBT();
+                nowEntity.putString("CustomName", "消消乐第" + i + "层");
+                nowEntity.putBoolean("HasVisualFire", true);
+                nowEntity.putBoolean("NoGravity", true);
             }
-            if (isExtendsFrom(parameterizedClass, MonsterEntity.class)
-                    || isImplementsFrom(parameterizedClass, IRangedAttackMob.class)
-                    || isExtendsFrom(parameterizedClass, ProjectileEntity.class)) {
-                try {
-                    EntityType<? extends Entity> entityType = (EntityType<? extends Entity>) field.get(null);
-                    if (entityType != EntityType.WITHER && entityType != EntityType.GIANT) {
-                        DANGER_ENTITIES.add(entityType);
-                    }
-                } catch (IllegalAccessException ignored) {} //不会发生
-            }
-        }
+        });
     }
 }
