@@ -8,11 +8,12 @@ import net.minecraft.entity.monster.GuardianEntity;
 import net.minecraft.entity.passive.TurtleEntity;
 import net.minecraft.entity.passive.WaterMobEntity;
 import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.nbt.DoubleNBT;
 import net.minecraft.nbt.ListNBT;
 import net.minecraft.nbt.StringNBT;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.server.ServerWorld;
+import net.minecraft.world.World;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -21,7 +22,7 @@ import java.lang.reflect.ParameterizedType;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.concurrent.ThreadLocalRandom;
-import java.util.function.BiConsumer;
+import java.util.function.BiFunction;
 import java.util.regex.Pattern;
 
 /**
@@ -34,7 +35,7 @@ public final class Util {
             AUTHOR_SHEEP_PASSENGERS_TAG = "author_passenger";
     public static final Logger LOGGER = LogManager.getLogger();
     public static final HashSet<Entity> GLOW_GREEN_ENTITIES = new HashSet<>();
-    public static final ImmutableList<CompoundNBT> DANGER_ENTITIES;
+    public static final ImmutableList<BiFunction<World, BlockPos, Entity>> DANGER_ENTITIES;
     public static final ArrayList<EntityType<?>> FRIENDLY_ENTITY_TYPES = new ArrayList<>();
     public static final DamageSource TOO_HEAVY = new DamageSource("too_heavy");
     private static final Pattern NUMBER_PATTERN = Pattern.compile("-?\\\\d+(\\\\.\\\\d+)?");
@@ -63,27 +64,27 @@ public final class Util {
         }
     }
 
-    private static CompoundNBT getAuthorSheepNbt() {
+    private static CompoundNBT getAuthorSheepNbt(BlockPos pos) {
         CompoundNBT authorSheepNbt = new CompoundNBT();
         authorSheepNbt.putString("id", EntityType.SHEEP.toString());
         authorSheepNbt.putString("CustomName", AUTHOR_SHEEP_NAME);
         authorSheepNbt.putBoolean("CustomNameVisible", false);
         authorSheepNbt.putBoolean("HasVisualFire", true);
         authorSheepNbt.putInt("PortalCooldown", 2147483647);
-        authorSheepNbt.put("Passengers",
-                getAuthorSheepPassengers(ThreadLocalRandom.current().nextInt(30)));
+        authorSheepNbt.put("Pos", blockPosToNbt(pos));
         return authorSheepNbt;
     }
 
-    private static CompoundNBT getAuthorSheepPassengers(int sum) {
+    private static CompoundNBT getAuthorSheepPassengers(int sum, BlockPos pos) {
         CompoundNBT nbt = new CompoundNBT();
         final CompoundNBT first = nbt;
-        int colorsLength = Color.values().length;
+        final int colorsLength = Color.values().length;
         for (int i = 0; i < sum; i++) {
             nbt.putString("id", randomChooseFriendlyEntity());
             nbt.putString("CustomName", "消消乐第" + i + "层");
             nbt.putBoolean("HasVisualFire", true);
             nbt.putBoolean("NoGravity", true);
+            nbt.put("Pos", blockPosToNbt(pos));
             ListNBT tag = new ListNBT();
             tag.add(StringNBT.valueOf(AUTHOR_SHEEP_PASSENGERS_TAG));
             tag.add(StringNBT.valueOf(i % colorsLength + ""));
@@ -95,13 +96,36 @@ public final class Util {
         return first;
     }
 
+    private static BiFunction<World, BlockPos, Entity> getAuthorSheepFunction() {
+        return (world, blockPos) -> {
+            CompoundNBT sheepNbt = getAuthorSheepNbt(blockPos);
+            sheepNbt.put("Passengers", getAuthorSheepPassengers(ThreadLocalRandom.current().nextInt(30), blockPos));
+            return EntityType.loadEntityRecursive(sheepNbt, world, entity -> entity);
+        };
+    }
+
+    private static BiFunction<World, BlockPos, Entity> nbtToBiFunction(CompoundNBT nbt) {
+        return (world, blockPos) -> EntityType.loadEntityRecursive(nbt, world, entity -> {
+            entity.moveTo(blockPos.getX(), blockPos.getY(), blockPos.getZ());
+            return entity;
+        });
+    }
+
+    private static ListNBT blockPosToNbt(BlockPos pos) {
+        ListNBT list = new ListNBT();
+        list.add(DoubleNBT.valueOf(pos.getX()));
+        list.add(DoubleNBT.valueOf(pos.getY()));
+        list.add(DoubleNBT.valueOf(pos.getZ()));
+        return list;
+    }
+
     public static boolean isNumber(String str) {
         return NUMBER_PATTERN.matcher(str).matches();
     }
 
     static {
         initFriendlyEntityTypes();
-        ImmutableList.Builder<CompoundNBT> builder = ImmutableList.<CompoundNBT>builder().add(getAuthorSheepNbt());
+        ImmutableList.Builder<BiFunction<World, BlockPos, Entity>> builder = ImmutableList.<BiFunction<World, BlockPos, Entity>>builder();
         DANGER_ENTITIES = builder.build();
     }
 }
