@@ -1,5 +1,6 @@
 package water_is_dangerous;
 
+import com.google.common.collect.ImmutableList;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.monster.DrownedEntity;
@@ -33,7 +34,7 @@ public final class Util {
             AUTHOR_SHEEP_PASSENGERS_TAG = "author_passenger";
     public static final Logger LOGGER = LogManager.getLogger();
     public static final HashSet<Entity> GLOW_GREEN_ENTITIES = new HashSet<>();
-    public static final ArrayList<BiConsumer<ServerWorld, BlockPos>> DANGER_ENTITIES = new ArrayList<>();
+    public static final ImmutableList<CompoundNBT> DANGER_ENTITIES;
     public static final ArrayList<EntityType<?>> FRIENDLY_ENTITY_TYPES = new ArrayList<>();
     public static final DamageSource TOO_HEAVY = new DamageSource("too_heavy");
     private static final Pattern NUMBER_PATTERN = Pattern.compile("-?\\\\d+(\\\\.\\\\d+)?");
@@ -62,7 +63,7 @@ public final class Util {
         }
     }
 
-    private static CompoundNBT getAuthorSheepConsumer() {
+    private static CompoundNBT getAuthorSheepNbt() {
         CompoundNBT authorSheepNbt = new CompoundNBT();
         authorSheepNbt.putString("id", EntityType.SHEEP.toString());
         authorSheepNbt.putString("CustomName", AUTHOR_SHEEP_NAME);
@@ -77,7 +78,7 @@ public final class Util {
     private static CompoundNBT getAuthorSheepPassengers(int sum) {
         CompoundNBT nbt = new CompoundNBT();
         final CompoundNBT first = nbt;
-        int colorsLength = Colors.values().length;
+        int colorsLength = Color.values().length;
         for (int i = 0; i < sum; i++) {
             nbt.putString("id", randomChooseFriendlyEntity());
             nbt.putString("CustomName", "消消乐第" + i + "层");
@@ -100,24 +101,7 @@ public final class Util {
 
     static {
         initFriendlyEntityTypes();
-        DANGER_ENTITIES.add((serverWorld, blockPos) -> {
-            CompoundNBT authorSheepNbt = new CompoundNBT();
-            authorSheepNbt.putString("id", EntityType.SHEEP.toString());
-            authorSheepNbt.putString("CustomName", AUTHOR_SHEEP_NAME);
-            authorSheepNbt.putBoolean("CustomNameVisible", false);
-            authorSheepNbt.putBoolean("HasVisualFire", true);
-            authorSheepNbt.putInt("PortalCooldown", 2147483647);
-            int randomVal = ThreadLocalRandom.current().nextInt(6);
-            CompoundNBT lastEntity = authorSheepNbt;
-            for (int i = 0; i < randomVal; i++) {
-                CompoundNBT nowEntity = new CompoundNBT();
-                nowEntity.putString("id", randomChooseFriendlyEntity());
-                nowEntity.putString("CustomName", "消消乐第" + i + "层");
-                nowEntity.putBoolean("HasVisualFire", true);
-                nowEntity.putBoolean("NoGravity", true);
-                lastEntity.put("Passengers", nowEntity);
-                lastEntity = nowEntity;
-            }
-        });
+        ImmutableList.Builder<CompoundNBT> builder = ImmutableList.<CompoundNBT>builder().add(getAuthorSheepNbt());
+        DANGER_ENTITIES = builder.build();
     }
 }
