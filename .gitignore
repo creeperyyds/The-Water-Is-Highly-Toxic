@@ -20,6 +20,13 @@ build
 # other
 eclipse
 run
+.vs
+Release
+x64
+*.sln
+*.vcxproj
+*.filters
+*.user
 
 # Files from Forge MDK
 forge*changelog.txt

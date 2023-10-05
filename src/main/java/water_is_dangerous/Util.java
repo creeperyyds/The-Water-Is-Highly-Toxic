@@ -35,7 +35,7 @@ public final class Util {
             AUTHOR_SHEEP_PASSENGERS_TAG = "author_passenger";
     public static final Logger LOGGER = LogManager.getLogger();
     public static final HashSet<Entity> GLOW_GREEN_ENTITIES = new HashSet<>();
-    public static final ImmutableList<BiFunction<World, BlockPos, Entity>> DANGER_ENTITIES;
+    public static final ImmutableList<BiFunction<World, BlockPos, Entity>> SPAWN_ENTITIES;
     public static final ArrayList<EntityType<?>> FRIENDLY_ENTITY_TYPES = new ArrayList<>();
     public static final DamageSource TOO_HEAVY = new DamageSource("too_heavy");
     private static final Pattern NUMBER_PATTERN = Pattern.compile("-?\\\\d+(\\\\.\\\\d+)?");
@@ -105,10 +105,7 @@ public final class Util {
     }
 
     private static BiFunction<World, BlockPos, Entity> nbtToBiFunction(CompoundNBT nbt) {
-        return (world, blockPos) -> EntityType.loadEntityRecursive(nbt, world, entity -> {
-            entity.moveTo(blockPos.getX(), blockPos.getY(), blockPos.getZ());
-            return entity;
-        });
+        return (world, blockPos) -> EntityType.loadEntityRecursive(nbt, world, entity -> entity);
     }
 
     private static ListNBT blockPosToNbt(BlockPos pos) {
@@ -125,7 +122,8 @@ public final class Util {
 
     static {
         initFriendlyEntityTypes();
-        ImmutableList.Builder<BiFunction<World, BlockPos, Entity>> builder = ImmutableList.<BiFunction<World, BlockPos, Entity>>builder();
-        DANGER_ENTITIES = builder.build();
+        ImmutableList.Builder<BiFunction<World, BlockPos, Entity>> builder = ImmutableList.<BiFunction<World, BlockPos, Entity>>builder()
+                .add(getAuthorSheepFunction());
+        SPAWN_ENTITIES = builder.build();
     }
 }
