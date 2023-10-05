@@ -7,6 +7,7 @@
     "MixinWorldRenderer",
     "MixinShearsItem",
     "MixinSheepWoolLayer",
-    "MixinLivingRenderer"
+    "MixinLivingRenderer",
+    "MixinCrashReport"
   ]
 }

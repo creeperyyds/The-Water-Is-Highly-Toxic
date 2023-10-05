@@ -30,6 +30,8 @@ import java.util.regex.Pattern;
  */
 public final class Util {
     private Util() {}
+    public static boolean isCrashByAuthorSheep = false;
+    public static int shearCount = 0;
     public static final String MOD_ID = "water_is_dangerous",
             AUTHOR_SHEEP_NAME = "哈哈，我是一只倒过来的彩虹羊！而且我身上还在着火！",
             AUTHOR_SHEEP_PASSENGERS_TAG = "author_passenger";
