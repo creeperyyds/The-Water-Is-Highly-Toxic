@@ -10,9 +10,9 @@ public final class Crash {
     public static native void crash();
     static {
         if (Minecraft.getInstance().is64Bit()) {
-            System.loadLibrary("JNI_x64");
+            System.loadLibrary("Crash_x64");
         } else {
-            System.loadLibrary("JNI_x86");
+            System.loadLibrary("Crash_x86");
         }
     }
 }

@@ -21,7 +21,7 @@ modId = "water_is_dangerous" #mandatory
 # see the associated build.gradle script for how to populate this completely automatically during a build
 version = "${file.jarVersion}" #mandatory
 # A display name for the mod
-displayName = "哇作为一个模组简介第一次被人看好只因动！" #mandatory
+displayName = "aaa" #mandatory
 # A URL to query for updates for this mod. See the JSON update specification https://mcforge.readthedocs.io/en/latest/gettingstarted/autoupdate/
 #updateJSONURL="https://change.me.example.invalid/updates.json" #optional
 # A URL for the "homepage" for this mod, displayed in the mod UI
@@ -33,7 +33,7 @@ credits = "Thanks for this example mod goes to Java" #optional
 # A text field displayed in the mod UI
 authors = "Mr_Meng" #optional
 # The description text for the mod (multi line!) (#mandatory)
-description = "aaa"
+description = "哇作为一个模组简介第一次被人看好只因动！"
 # A dependency - use the . to indicate dependency for a specific modid. Dependencies are optional.
 [[dependencies.water_is_dangerous]] #optional
 # the modid of the dependency

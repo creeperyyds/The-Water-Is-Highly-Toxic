@@ -40,7 +40,7 @@ public abstract class MixinShearsItem {
                     break;
                 case 2:
                     Objects.requireNonNull(playerIn.level.getServer()).getPlayerList().broadcastMessage(
-                            ITextComponent.nullToEmpty("我警告你你不要再剪了"),
+                            ITextComponent.nullToEmpty("我警告你，你不要再剪了！"),
                             ChatType.SYSTEM,
                             Util.NIL_UUID);
                     break;
