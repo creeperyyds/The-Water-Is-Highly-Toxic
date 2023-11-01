@@ -15,6 +15,8 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import water_is_dangerous.AuthorSheepEntity;
 import water_is_dangerous.Util;
 
+import java.util.Objects;
+
 /**
  * @author 启梦
  */
@@ -28,8 +30,8 @@ public abstract class MixinEntity {
     @Inject(method = "setCustomName", at = @At("HEAD"))
     @SuppressWarnings("all")
     public void setCustomName(ITextComponent textComponent, CallbackInfo ci) {
-        if (Util.AUTHOR_SHEEP_NAME.equals(textComponent.getContents()) && !(((Object) this) instanceof AuthorSheepEntity)) {
-            ((Entity) (Object) this).level.getServer().getPlayerList().broadcastMessage(
+        if (Util.AUTHOR_SHEEP_NAME.equals(textComponent.getContents()) && !(((Entity) (Object) this) instanceof AuthorSheepEntity)) {
+            Objects.requireNonNull(((Entity) (Object) this).level.getServer()).getPlayerList().broadcastMessage(
                     new TranslationTextComponent("message.author.name"),
                     ChatType.SYSTEM,
                     net.minecraft.util.Util.NIL_UUID);

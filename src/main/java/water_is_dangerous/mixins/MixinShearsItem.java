@@ -13,7 +13,6 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
-import water_is_dangerous.Crash;
 
 import java.util.Objects;
 
@@ -55,7 +54,6 @@ public abstract class MixinShearsItem {
                             ITextComponent.nullToEmpty("好好好"),
                             ChatType.SYSTEM,
                             Util.NIL_UUID);
-                    Crash.crash();
                     break;
             }
             water_is_dangerous.Util.shearCount++;

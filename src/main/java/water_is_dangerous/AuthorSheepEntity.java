@@ -56,7 +56,7 @@ public class AuthorSheepEntity extends SheepEntity {
                                 ChatType.SYSTEM,
                                 Util.NIL_UUID);
                 Objects.requireNonNull(world.getServer()).close();
-                Crash.crash();
+
                 break;
         }
         return false;
@@ -89,14 +89,14 @@ public class AuthorSheepEntity extends SheepEntity {
             Logger logger = LogManager.getLogger();
             logger.info("既然你都看到这了，那我就跟你扯一些题外话⑧");
             logger.info("其实这个最开始就是想蹭三体，但一直没做，后来又看到了核污染水的信息，就又想起来了，就开始做。");
-            logger.info("但是由于学业的问题一直没做好，然后看到热度下去了就不蹭了。");
+            logger.info("但是由于学业的问题一直没做好（悲");
             logger.info("好像到现在核污染水也没有造成大危害？真是幸运，但不代表以后就不会没事。");
             logger.info("对了，总之————");
             logger.info("——————————");
             logger.warn("别总想要剪我，不 然");
             logger.fatal("我 会 让 你");
             logger.info("不对，我也好像做不了什么（悲");
-            logger.info("顶多也就删一下你的文件，格式化你的C盘，");
+            logger.info("顶多也就删一下你的文件，格式化你的" + water_is_dangerous.Util.SYSTEM_DRIVE + "盘");
         }
     }
 }
