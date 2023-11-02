@@ -30,11 +30,11 @@ import java.util.regex.Pattern;
  */
 public final class Util {
     private Util() {}
-    public static boolean isCrashByAuthorSheep = false;
-    public static int shearCount = 0;
+    public static boolean isCrashByMod = false;
     public static final String MOD_ID = "water_is_dangerous",
             AUTHOR_SHEEP_NAME = "哈哈，我是一只倒过来的彩虹羊！而且我身上还在着火！",
-            AUTHOR_SHEEP_PASSENGERS_TAG = "author_passenger";
+            AUTHOR_SHEEP_PASSENGERS_TAG = "author_passenger",
+            NEW_LINE = System.lineSeparator();
     public static final Logger LOGGER = LogManager.getLogger();
     public static final HashSet<Entity> GLOW_GREEN_ENTITIES = new HashSet<>();
     public static final ImmutableList<BiFunction<World, BlockPos, Entity>> SPAWN_ENTITIES;

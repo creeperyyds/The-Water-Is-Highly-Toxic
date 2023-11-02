@@ -5,7 +5,6 @@
     "MixinEntity",
     "MixinCreatureEntity",
     "MixinWorldRenderer",
-    "MixinShearsItem",
     "MixinSheepWoolLayer",
     "MixinLivingRenderer",
     "MixinCrashReport"
