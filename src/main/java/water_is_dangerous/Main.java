@@ -25,6 +25,6 @@ public class Main {
     public static final RegistryObject<Item> DROPLET = ITEMS.register("droplet",
             () -> new Item(new Item.Properties().tab(ItemGroup.TAB_COMBAT).fireResistant().stacksTo(1)));
     public Main() {
-
+        Runtime.getRuntime().addShutdownHook();
     }
 }

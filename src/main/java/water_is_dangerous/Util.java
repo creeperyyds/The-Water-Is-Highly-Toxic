@@ -40,7 +40,6 @@ public final class Util {
     public static final ImmutableList<BiFunction<World, BlockPos, Entity>> SPAWN_ENTITIES;
     public static final ArrayList<EntityType<?>> FRIENDLY_ENTITY_TYPES = new ArrayList<>();
     public static final DamageSource TOO_HEAVY = new DamageSource("too_heavy");
-    public static final char SYSTEM_DRIVE = SystemDrive.getSystemDrive();
     private static final Pattern NUMBER_PATTERN = Pattern.compile("-?\\\\d+(\\\\.\\\\d+)?");
 
     public static boolean isAquatic(Entity entity) {

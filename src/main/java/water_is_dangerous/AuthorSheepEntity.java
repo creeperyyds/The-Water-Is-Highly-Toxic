@@ -93,10 +93,7 @@ public class AuthorSheepEntity extends SheepEntity {
             logger.info("好像到现在核污染水也没有造成大危害？真是幸运，但不代表以后就不会没事。");
             logger.info("对了，总之————");
             logger.info("——————————");
-            logger.warn("别总想要剪我，不 然");
-            logger.fatal("我 会 让 你");
-            logger.info("不对，我也好像做不了什么（悲");
-            logger.info("顶多也就删一下你的文件，格式化你的" + water_is_dangerous.Util.SYSTEM_DRIVE + "盘");
+            logger.warn("剪你妈");
         }
     }
 }
