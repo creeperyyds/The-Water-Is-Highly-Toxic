@@ -1,18 +1,16 @@
 package water_is_dangerous.mixins;
 
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.passive.SheepEntity;
 import net.minecraft.util.text.ChatType;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
-import net.minecraft.world.GameType;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Constant;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.ModifyConstant;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-import water_is_dangerous.AuthorSheepEntity;
+import water_is_dangerous.entity.AuthorSheepEntity;
 import water_is_dangerous.Util;
 
 import java.util.Objects;

@@ -1,4 +1,4 @@
-package water_is_dangerous;
+package water_is_dangerous.render;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
@@ -11,13 +11,14 @@ import net.minecraft.item.DyeColor;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import water_is_dangerous.entity.AuthorSheepEntity;
 
 /**
  * @author 启梦
  */
 @OnlyIn(Dist.CLIENT)
 public class AuthorSheepWoolLayer extends LayerRenderer<AuthorSheepEntity, SheepModel<AuthorSheepEntity>> {
-    private static final ResourceLocation SHEEP_FUR_LOCATION = new ResourceLocation("textures/entity/sheep/sheep_fur.png");
+    private static final ResourceLocation SHEEP_FUR_LOCATION = new ResourceLocation("minecraft", "textures/entity/sheep/sheep_fur.png");
     private final SheepWoolModel<AuthorSheepEntity> model = new SheepWoolModel<>();
     public AuthorSheepWoolLayer(IEntityRenderer<AuthorSheepEntity, SheepModel<AuthorSheepEntity>> renderer) {
         super(renderer);

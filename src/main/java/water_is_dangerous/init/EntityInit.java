@@ -1,15 +1,18 @@
-package water_is_dangerous;
+package water_is_dangerous.init;
 
 import net.minecraft.entity.EntityClassification;
 import net.minecraft.entity.EntityType;
 import net.minecraftforge.fml.RegistryObject;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
+import water_is_dangerous.entity.AuthorSheepEntity;
+import water_is_dangerous.Util;
 
 /**
  * @author 启梦
  */
 public final class EntityInit {
+    private EntityInit() {}
     public static final DeferredRegister<EntityType<?>> ENTITY_TYPES = DeferredRegister.create(
             ForgeRegistries.ENTITIES,
             Util.MOD_ID);

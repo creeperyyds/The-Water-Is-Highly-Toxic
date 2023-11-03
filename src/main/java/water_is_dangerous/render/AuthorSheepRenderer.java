@@ -1,4 +1,4 @@
-package water_is_dangerous;
+package water_is_dangerous.render;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.sun.istack.internal.NotNull;
@@ -7,14 +7,15 @@ import net.minecraft.client.renderer.entity.MobRenderer;
 import net.minecraft.client.renderer.entity.model.SheepModel;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.vector.Vector3f;
+import water_is_dangerous.entity.AuthorSheepEntity;
 
 /**
  * @author 启梦
  */
 public class AuthorSheepRenderer extends MobRenderer<AuthorSheepEntity, SheepModel<AuthorSheepEntity>> {
-    private static final ResourceLocation SHEEP_LOCATION = new ResourceLocation("textures/entity/sheep/sheep.png");
+    private static final ResourceLocation SHEEP_LOCATION = new ResourceLocation("minecraft", "textures/entity/sheep/sheep.png");
 
-    public AuthorSheepRenderer(EntityRendererManager p_i50961_1_, SheepModel<AuthorSheepEntity> p_i50961_2_, float p_i50961_3_) {
+    public AuthorSheepRenderer(EntityRendererManager p_i50961_1_) {
         super(p_i50961_1_, new SheepModel<>(), 0.7f);
         this.addLayer(new AuthorSheepWoolLayer(this));
     }

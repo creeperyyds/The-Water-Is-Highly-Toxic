@@ -1,4 +1,4 @@
-package water_is_dangerous;
+package water_is_dangerous.entity;
 
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.passive.SheepEntity;
