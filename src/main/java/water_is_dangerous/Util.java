@@ -38,85 +38,11 @@ public final class Util {
             NEW_LINE = System.lineSeparator();
     public static final Logger LOGGER = LogManager.getLogger();
     public static final HashSet<Entity> GLOW_GREEN_ENTITIES = new HashSet<>();
-    public static final ImmutableList<BiFunction<World, BlockPos, Entity>> SPAWN_ENTITIES;
-    public static final ArrayList<EntityType<?>> FRIENDLY_ENTITY_TYPES = new ArrayList<>();
-    public static final DamageSource TOO_HEAVY = new DamageSource("too_heavy");
+    public static final ImmutableList<EntityType<?>> SPAWN_ENTITIES;
     private static final Pattern NUMBER_PATTERN = Pattern.compile("-?\\\\d+(\\\\.\\\\d+)?");
 
     public static boolean isAquatic(Entity entity) {
         return entity instanceof WaterMobEntity || entity instanceof GuardianEntity || entity instanceof TurtleEntity || entity instanceof DrownedEntity;
-    }
-
-    public static String randomChooseFriendlyEntity() {
-        return FRIENDLY_ENTITY_TYPES.get(ThreadLocalRandom.current().nextInt(FRIENDLY_ENTITY_TYPES.size())).toString();
-    }
-
-    private static void initFriendlyEntityTypes() {
-        try {
-            for (Field field : EntityType.class.getFields()) {
-                if (field.getType() != EntityType.class) {
-                    continue;
-                }
-                if (((ParameterizedType) field.getGenericType()).getActualTypeArguments()[0].getTypeName().startsWith("net.minecraft.entity.passive")) {
-                    FRIENDLY_ENTITY_TYPES.add((EntityType<?>) field.get(null));
-                }
-            }
-        } catch (Throwable ex) {
-            LOGGER.fatal(ex);
-            System.exit(0);
-        }
-    }
-
-    private static CompoundNBT getAuthorSheepNbt(BlockPos pos) {
-        CompoundNBT authorSheepNbt = new CompoundNBT();
-        authorSheepNbt.putString("id", EntityType.SHEEP.toString());
-        authorSheepNbt.putString("CustomName", AUTHOR_SHEEP_NAME);
-        authorSheepNbt.putBoolean("CustomNameVisible", false);
-        authorSheepNbt.putBoolean("HasVisualFire", true);
-        authorSheepNbt.putInt("PortalCooldown", 2147483647);
-        authorSheepNbt.put("Pos", blockPosToNbt(pos));
-        return authorSheepNbt;
-    }
-
-    private static CompoundNBT getAuthorSheepPassengers(int sum, BlockPos pos) {
-        CompoundNBT nbt = new CompoundNBT();
-        final CompoundNBT first = nbt;
-        final int colorsLength = Color.values().length;
-        for (int i = 0; i < sum; i++) {
-            nbt.putString("id", randomChooseFriendlyEntity());
-            nbt.putString("CustomName", "消消乐第" + i + "层");
-            nbt.putBoolean("HasVisualFire", true);
-            nbt.putBoolean("NoGravity", true);
-            nbt.put("Pos", blockPosToNbt(pos));
-            ListNBT tag = new ListNBT();
-            tag.add(StringNBT.valueOf(AUTHOR_SHEEP_PASSENGERS_TAG));
-            tag.add(StringNBT.valueOf(i % colorsLength + ""));
-            nbt.put("Tags", tag);
-            if (i != sum - 1) {
-                nbt.put("Passengers", nbt = new CompoundNBT());
-            }
-        }
-        return first;
-    }
-
-    private static BiFunction<World, BlockPos, Entity> getAuthorSheepFunction() {
-        return (world, blockPos) -> {
-            CompoundNBT sheepNbt = getAuthorSheepNbt(blockPos);
-            sheepNbt.put("Passengers", getAuthorSheepPassengers(ThreadLocalRandom.current().nextInt(30), blockPos));
-            return EntityType.loadEntityRecursive(sheepNbt, world, entity -> entity);
-        };
-    }
-
-    private static BiFunction<World, BlockPos, Entity> nbtToBiFunction(CompoundNBT nbt) {
-        return (world, blockPos) -> EntityType.loadEntityRecursive(nbt, world, entity -> entity);
-    }
-
-    private static ListNBT blockPosToNbt(BlockPos pos) {
-        ListNBT list = new ListNBT();
-        list.add(DoubleNBT.valueOf(pos.getX()));
-        list.add(DoubleNBT.valueOf(pos.getY()));
-        list.add(DoubleNBT.valueOf(pos.getZ()));
-        return list;
     }
 
     public static boolean isNumber(String str) {
@@ -124,9 +50,8 @@ public final class Util {
     }
 
     static {
-        initFriendlyEntityTypes();
-        ImmutableList.Builder<BiFunction<World, BlockPos, Entity>> builder = ImmutableList.<BiFunction<World, BlockPos, Entity>>builder()
-                .add(getAuthorSheepFunction());
+        //TODO 往这里加添加召唤实体的代码
+        ImmutableList.Builder<EntityType<?>> builder = ImmutableList.builder();
         SPAWN_ENTITIES = builder.build();
     }
 }
