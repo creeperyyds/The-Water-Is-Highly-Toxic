@@ -17,13 +17,6 @@ import static water_is_dangerous.Util.NEW_LINE;
  */
 @Mixin(CrashReport.class)
 public abstract class MixinCrashReport {
-    @Inject(method = "getErrorComment", at = @At("HEAD"), cancellable = true)
-    private static void getErrorComment(CallbackInfoReturnable<String> cir) {
-        if (Util.isCrashByMod) {
-            cir.setReturnValue("你~干~嘛");
-        }
-    }
-
     @Inject(method = "getFriendlyReport", at = @At("RETURN"), locals = LocalCapture.CAPTURE_FAILHARD)
     private void getFriendlyReport(CallbackInfoReturnable<String> cir, StringBuilder stringbuilder) {
         if (Util.isCrashByMod) {

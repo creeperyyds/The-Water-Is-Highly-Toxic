@@ -24,11 +24,4 @@ public class Main {
     public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, Util.MOD_ID);
     public static final RegistryObject<Item> DROPLET = ITEMS.register("droplet",
             () -> new Item(new Item.Properties().tab(ItemGroup.TAB_COMBAT).fireResistant().stacksTo(1)));
-    public Main() {
-        Runtime.getRuntime().addShutdownHook(new Thread(() -> {
-            if (Util.isCrashByMod) {
-
-            }
-        }));
-    }
 }
